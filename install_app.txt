@@ -1,0 +1,6 @@
+django-rest-framework
+django-webpack-loader
+djangorestframework-jwt
+django-cors-headers
+django-environ
+psycopg2-binary
