@@ -8,6 +8,7 @@ class IdeaListView(generics.ListCreateAPIView):
     serializer_class = IdeaSerializer
     permission_classes = (IsAuthenticated,)
 
+
 class IdeaDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Idea.objects.all()
     serializer_class = IdeaSerializer

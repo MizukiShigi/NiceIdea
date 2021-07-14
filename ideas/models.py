@@ -13,7 +13,7 @@ class Tag(models.Model):
 
 class Idea(models.Model):
     user_id = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=CASCADE)
-    tag_id = models.ForeignKey(Tag, on_delete=CASCADE)
+    tag_id = models.ForeignKey(Tag, on_delete=CASCADE, blank=True, null=True)
     content = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
