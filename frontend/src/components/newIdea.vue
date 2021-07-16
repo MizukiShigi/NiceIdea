@@ -29,6 +29,15 @@
               </v-btn>
             </v-toolbar-items>
           </v-toolbar>
+          <v-text-field
+            label="タイトル"
+            placeholder="タイトル"
+            counter
+            maxlength="40"
+            color="success"
+            required
+            class="ideatitle"
+          ></v-text-field>
           <v-textarea
             v-model="content"
             placeholder="アイデアを思い付いたら気軽に投稿しましょう！"
@@ -55,6 +64,7 @@ export default {
       sound: true,
       widgets: false,
       svgPath: "mdi-lightbulb-on-outline",
+      title: "",
       content: "",
     };
   },
@@ -62,6 +72,7 @@ export default {
     onSubmit() {
       const datas = {
         content: this.content,
+        title: this.title,
       };
       axios
         .post("/api/ideas/", datas, {
@@ -71,22 +82,22 @@ export default {
         })
         .then((response) => {
           console.log(response.data);
-          // this.$router.go({
-          //   path: this.$router.currentRoute.path,
-          //   force: true,
-          // });
+          this.$router.go({
+            path: this.$router.currentRoute.path,
+            force: true,
+          });
         })
         .catch((error) => {
           console.log(error);
-          // this.$swal({
-          //   type: "warning",
-          //   title: "ログイン",
-          //   text: "再ログインしてください",
-          //   showConfirmButton: false,
-          //   showCloseButton: false,
-          //   timer: 1000,
-          // });
-          // this.$router.push("/login");
+          this.$swal({
+            type: "warning",
+            title: "ログイン",
+            text: "再ログインしてください",
+            showConfirmButton: false,
+            showCloseButton: false,
+            timer: 1000,
+          });
+          this.$router.push("/login");
         });
     },
   },
@@ -97,10 +108,15 @@ export default {
 .ideabutton {
   position: fixed;
   right: 20px;
-  bottom: 50px;
+  bottom: 60px;
 }
 
 .ideacontents {
   padding: 10px;
+}
+
+.ideatitle {
+  padding: 10px;
+  line-height: 1.5rem;
 }
 </style>

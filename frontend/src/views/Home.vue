@@ -3,15 +3,19 @@
     <Header />
     <v-container>
       <h2>Idea Board</h2>
-      <div v-for="idea in ideas" :key="idea.pk">
-        <h3>
-          <router-link
-            :to="{ name: 'idea', params: { id: idea.id } }"
-            class="idea-link"
-            >{{ idea.company_name }}
-          </router-link>
-        </h3>
-        <p>{{ idea.idea_title }}</p>
+      <div v-for="idea in ideas" :key="idea.pk" class="post">
+        <router-link
+          :to="{ name: 'idea', params: { id: idea.id } }"
+          class="idea-link"
+        >
+          <h3>
+            <v-icon style="font-size: 18px; color: #4caf50">{{
+              svgPerson
+            }}</v-icon>
+            【{{ idea.title }}】
+          </h3>
+          <p>{{ idea.content }}</p>
+        </router-link>
         <hr />
       </div>
       <div class="my-4">
@@ -39,6 +43,7 @@ export default {
   },
   data() {
     return {
+      svgPerson: "mdi-head-lightbulb-outline",
       ideas: [],
       next: null,
       loadingIdeas: false,
@@ -66,8 +71,10 @@ export default {
           },
         })
         .then((response) => {
-          console.log(response.data);
-          this.ideas.push(...response.data.results);
+          console.log(...response.data);
+          if (response.data.length !== 0) {
+            this.ideas.push(...response.data);
+          }
           this.loadingIdeas = false;
           if (response.data.next) {
             this.next = response.data.next;
@@ -101,13 +108,19 @@ export default {
 h2 {
   color: #4caf50;
 }
-.idea-link {
+h3 {
   font-weight: bold;
-  color: black;
+}
+.idea-link {
   text-decoration: none;
+  color: black;
 }
 
 .idea-link:hover {
   color: #4caf50;
+}
+
+.post {
+  padding-top: 8px;
 }
 </style>

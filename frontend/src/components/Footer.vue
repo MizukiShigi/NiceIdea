@@ -3,9 +3,30 @@
     color="success"
     dark
     app
-    class="justify-center"
+    class="d-flex justify-space-around"
     style="font-size: 10px"
   >
-    Copyright © MizukiShigihara All Rights Reserved.
+    <v-btn icon to="/">
+      <v-icon>{{ homePath }}</v-icon>
+    </v-btn>
+    <v-btn icon to="/">
+      <v-icon>{{ homePath }}</v-icon>
+    </v-btn>
+    <v-btn icon to="/">
+      <v-icon>{{ homePath }}</v-icon>
+    </v-btn>
   </v-footer>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      homePath: "mdi-home-lightbulb-outline",
+    };
+  },
+};
+</script>
+
+<style scoped>
+</style>

@@ -1,16 +1,27 @@
 from django.db import models
+from django.db.models.deletion import CASCADE
 from rest_framework import serializers
-from ideas.models import Idea
+from ideas.models import Idea, Comment
+from django.conf import settings
 
-class IdeaSerializer(serializers.Serializer):
-    content = serializers.CharField(max_length=255)
+class IdeaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Idea
-        # fields = "__all__"
+        fields = "__all__"
+
+class CommentSerializer(serializers.ModelSerializer):
+    # user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=CASCADE)
+    # idea = models.ForeignKey(Idea, on_delete=CASCADE)
+    # comment = models.CharField(max_length=100)
     # def create(self, validated_data):
-    
-    def save(self):
-        user_id = self.context['request'].user
-        content = self.validated_data['content']
-    
+    #     return Comment(**validated_data)
+
+    # def update(self, instance, validated_data):
+    #     instance.user = validated_data.get('user', instance.user)
+    #     instance.idea = validated_data.get('idea', instance.idea)
+    #     instance.comment = validated_data.get('comment', instance.comment)
+    #     return instance
+    class Meta:
+        model = Comment
+        fields = "__all__"
     
