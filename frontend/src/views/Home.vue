@@ -2,21 +2,26 @@
   <div>
     <Header />
     <v-container>
-      <h2>Idea Board</h2>
       <div v-for="idea in ideas" :key="idea.pk" class="post">
-        <router-link
-          :to="{ name: 'idea', params: { id: idea.id } }"
-          class="idea-link"
-        >
-          <h3>
-            <v-icon style="font-size: 18px; color: #4caf50">{{
-              svgPerson
-            }}</v-icon>
-            【{{ idea.title }}】
-          </h3>
-          <p>{{ idea.content }}</p>
-        </router-link>
-        <hr />
+        <v-card>
+          <router-link
+            :to="{ name: 'idea', params: { id: idea.id } }"
+            class="idea-link"
+          >
+            <v-card-text>
+              <h3>
+                <v-icon style="font-size: 18px; color: #4caf50">
+                  {{ svgPerson }}
+                </v-icon>
+                【{{ idea.title }}】
+              </h3>
+              <p>{{ idea.content }}</p>
+            </v-card-text>
+          </router-link>
+          <v-card-actions>
+            <good :idea="idea"></good>
+          </v-card-actions>
+        </v-card>
       </div>
       <div class="my-4">
         <p v-show="loadingIdeas">...loading...</p>
@@ -33,6 +38,7 @@ import axios from "axios";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import NewIdea from "@/components/newIdea";
+import Good from "@/components/Good";
 
 export default {
   name: "home",
@@ -40,6 +46,7 @@ export default {
     Header,
     Footer,
     NewIdea,
+    Good,
   },
   data() {
     return {
@@ -81,19 +88,19 @@ export default {
           } else {
             this.next = null;
           }
-        })
-        .catch((error) => {
-          console.log(error);
-          this.$swal({
-            type: "warning",
-            title: "ログイン",
-            text: "再ログインしてください",
-            showConfirmButton: false,
-            showCloseButton: false,
-            timer: 1000,
-          });
-          this.$router.push("/login");
         });
+      // .catch((error) => {
+      //   console.log(error);
+      //   this.$swal({
+      //     type: "warning",
+      //     title: "ログイン",
+      //     text: "再ログインしてください",
+      //     showConfirmButton: false,
+      //     showCloseButton: false,
+      //     timer: 1000,
+      //   });
+      //   this.$router.push("/login");
+      // });
     },
   },
   created() {

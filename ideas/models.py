@@ -19,15 +19,16 @@ class Idea(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
 class Comment(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=CASCADE, blank=True, null=True)
-    idea = models.ForeignKey(Idea, on_delete=CASCADE, blank=True, null=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,  on_delete=CASCADE, blank=True, null=True)
+    idea = models.ForeignKey(Idea, on_delete=CASCADE, related_name='comments', blank=True, null=True)
     comment = models.CharField(max_length=100)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+
 class Good(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=CASCADE, blank=True, null=True)
-    idea = models.ForeignKey(Idea, on_delete=CASCADE, blank=True, null=True)
+    idea = models.ForeignKey(Idea, on_delete=CASCADE, related_name='goods', blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

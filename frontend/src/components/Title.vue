@@ -23,8 +23,4 @@ h1 {
   text-align: center;
   color: #4caf50;
 }
-.light {
-  font-size: 36px;
-  color: yellow;
-}
 </style>

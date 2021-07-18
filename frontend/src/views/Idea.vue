@@ -2,7 +2,7 @@
   <div>
     <Header />
     <v-container>
-      <v-card class="mx-auto mb-5">
+      <v-card class="mx-auto mb-2">
         <v-card-text>
           <h2>
             <v-icon style="font-size: 18px; color: #4caf50">{{
@@ -13,22 +13,15 @@
           <p>{{ idea.content }}</p>
         </v-card-text>
         <v-card-actions>
-          <v-btn
-            color="success"
-            class="mr-2"
-            :to="{ name: 'editer', params: { id: idea.id } }"
-            >編集</v-btn
-          >
-          <v-btn color="error" @click="deleteIdeaData">削除</v-btn>
+          <newComment :id="this.id" />
         </v-card-actions>
       </v-card>
       <comment
-        v-for="(comment, key) in comments"
+        v-for="(comment, key) in idea.comments"
         :key="key"
         :comment="comment"
       ></comment>
     </v-container>
-    <newComment :id="this.id"></newComment>
     <Footer />
   </div>
 </template>
@@ -45,7 +38,7 @@ export default {
   name: "idea",
   props: {
     id: {
-      type: String,
+      type: Number,
       required: true,
     },
   },
@@ -86,55 +79,58 @@ export default {
           this.$router.push("/login");
         });
     },
-    getCommentData() {
-      axios
-        .get(`/api/comments/${this.id}/`, {
-          headers: { Authorization: "JWT " + localStorage.getItem("token") },
-        })
-        .then((response) => (this.comments = response.data))
-        .catch((error) => {
-          console.log(error);
-          this.$swal({
-            type: "warning",
-            title: "ログイン",
-            text: "再ログインしてください",
-            showConfirmButton: false,
-            showCloseButton: false,
-            timer: 1000,
-          });
-          this.$router.push("/login");
-        });
-    },
-    deleteIdeaData() {
-      axios
-        .delete(`/api/ideas/${this.id}/`, {
-          headers: { Authorization: "JWT " + localStorage.getItem("token") },
-        })
-        .then(() =>
-          this.$router.push({
-            name: "home",
-          })
-        )
-        .catch((error) => {
-          console.log(error);
-          this.$swal({
-            type: "warning",
-            title: "ログイン",
-            text: "再ログインしてください",
-            showConfirmButton: false,
-            showCloseButton: false,
-            timer: 1000,
-          });
-          this.$router.push("/login");
-        });
-    },
+    // getCommentData() {
+    //   axios
+    //     .get(`/api/comments/${this.id}/`, {
+    //       headers: { Authorization: "JWT " + localStorage.getItem("token") },
+    //     })
+    //     .then((response) => (this.comments = response.data))
+    //     .catch((error) => {
+    //       console.log(error);
+    //       this.$swal({
+    //         type: "warning",
+    //         title: "ログイン",
+    //         text: "再ログインしてください",
+    //         showConfirmButton: false,
+    //         showCloseButton: false,
+    //         timer: 1000,
+    //       });
+    //       this.$router.push("/login");
+    //     });
+    // },
+    // deleteIdeaData() {
+    //   axios
+    //     .delete(`/api/ideas/${this.id}/`, {
+    //       headers: { Authorization: "JWT " + localStorage.getItem("token") },
+    //     })
+    //     .then(() =>
+    //       this.$router.push({
+    //         name: "home",
+    //       })
+    //     )
+    //     .catch((error) => {
+    //       console.log(error);
+    //       this.$swal({
+    //         type: "warning",
+    //         title: "ログイン",
+    //         text: "再ログインしてください",
+    //         showConfirmButton: false,
+    //         showCloseButton: false,
+    //         timer: 1000,
+    //       });
+    //       this.$router.push("/login");
+    //     });
+    // },
   },
   created() {
     this.getIdeaData();
-    this.getCommentData();
   },
 };
 </script>
 
 <style>
+newComment {
+  position: absolute;
+  bottom: 30px;
+}
 </style>

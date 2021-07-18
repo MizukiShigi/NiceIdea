@@ -1,27 +1,49 @@
 from django.db import models
+from django.db.models import fields
+from django.db.models.base import Model
 from django.db.models.deletion import CASCADE
 from rest_framework import serializers
-from ideas.models import Idea, Comment
+from ideas.models import Good, Idea, Comment
 from django.conf import settings
 
-class IdeaSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Idea
-        fields = "__all__"
 
 class CommentSerializer(serializers.ModelSerializer):
-    # user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=CASCADE)
-    # idea = models.ForeignKey(Idea, on_delete=CASCADE)
-    # comment = models.CharField(max_length=100)
-    # def create(self, validated_data):
-    #     return Comment(**validated_data)
-
-    # def update(self, instance, validated_data):
-    #     instance.user = validated_data.get('user', instance.user)
-    #     instance.idea = validated_data.get('idea', instance.idea)
-    #     instance.comment = validated_data.get('comment', instance.comment)
-    #     return instance
     class Meta:
         model = Comment
         fields = "__all__"
+
+class GoodSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Good
+        fields = "__all__"
+
+class IdeaListSerializer(serializers.ModelSerializer):
+    goods_count = serializers.SerializerMethodField()
+    is_good = serializers.SerializerMethodField()
     
+    class Meta:
+        model = Idea
+        fields = ("id", "user_id", "title", "content", "goods_count", "is_good")
+    
+    def get_goods_count(self, obj):
+        return obj.goods.count()
+
+    def get_is_good(self, obj):
+        user = self.context['request'].user
+
+        if user.is_authenticated:
+            return Good.objects.filter(user_id=user, idea_id=obj).exists()
+        else:
+            return False
+
+class IdeaSerializer(serializers.ModelSerializer):
+    comments = CommentSerializer(read_only=True, many=True)
+    class Meta:
+        model = Idea
+        fields = ("user_id", "title", "content", "comments")
+        # fields = "__all__"
+
+class GoodSerializer(serializers.ModelSerializer):
+    class Meta:
+        Model = Good
+        fields = "__all__"
