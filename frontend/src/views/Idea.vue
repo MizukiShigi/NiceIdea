@@ -4,16 +4,22 @@
     <v-container>
       <v-card class="mx-auto mb-2">
         <v-card-text>
-          <h2>
-            <v-icon style="font-size: 18px; color: #4caf50">{{
-              svgPerson
-            }}</v-icon
-            >【{{ idea.title }}】
-          </h2>
+          <div class="d-flex justify-space-between">
+            <h2>
+              <v-icon style="font-size: 18px; color: #4caf50">
+                {{ svgPerson }}
+              </v-icon>
+              【{{ idea.title }}】
+            </h2>
+            <div>
+              <Delete :id="this.id" />
+            </div>
+          </div>
           <p>{{ idea.content }}</p>
         </v-card-text>
         <v-card-actions>
-          <newComment :id="this.id" />
+          <good :idea="idea"></good>
+          <div class="comment"><newComment :id="this.id" /></div>
         </v-card-actions>
       </v-card>
       <comment
@@ -22,6 +28,7 @@
         :comment="comment"
       ></comment>
     </v-container>
+    <NewIdea />
     <Footer />
   </div>
 </template>
@@ -32,7 +39,9 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Comment from "@/components/Comment";
 import newComment from "@/components/newComment";
-// import { apiService } from "../common/api.service.js";
+import NewIdea from "@/components/newIdea";
+import Good from "@/components/Good";
+import Delete from "@/components/Delete";
 
 export default {
   name: "idea",
@@ -46,7 +55,10 @@ export default {
     Header,
     Footer,
     Comment,
+    NewIdea,
     newComment,
+    Good,
+    Delete,
   },
   data() {
     return {
@@ -55,72 +67,19 @@ export default {
       svgPerson: "mdi-head-lightbulb-outline",
     };
   },
+  mounted() {
+    this.checkLoggedIn();
+  },
   methods: {
     setPageTitle(title) {
       document.title = title;
     },
     getIdeaData() {
       axios
-        .get(`/api/ideas/${this.id}/`, {
-          headers: { Authorization: "JWT " + localStorage.getItem("token") },
-        })
+        .get(`/api/ideas/${this.id}/`)
         .then((response) => (this.idea = response.data))
-        .then(() => this.setPageTitle(this.idea.title))
-        .catch((error) => {
-          console.log(error);
-          this.$swal({
-            type: "warning",
-            title: "ログイン",
-            text: "再ログインしてください",
-            showConfirmButton: false,
-            showCloseButton: false,
-            timer: 1000,
-          });
-          this.$router.push("/login");
-        });
+        .then(() => this.setPageTitle(this.idea.title));
     },
-    // getCommentData() {
-    //   axios
-    //     .get(`/api/comments/${this.id}/`, {
-    //       headers: { Authorization: "JWT " + localStorage.getItem("token") },
-    //     })
-    //     .then((response) => (this.comments = response.data))
-    //     .catch((error) => {
-    //       console.log(error);
-    //       this.$swal({
-    //         type: "warning",
-    //         title: "ログイン",
-    //         text: "再ログインしてください",
-    //         showConfirmButton: false,
-    //         showCloseButton: false,
-    //         timer: 1000,
-    //       });
-    //       this.$router.push("/login");
-    //     });
-    // },
-    // deleteIdeaData() {
-    //   axios
-    //     .delete(`/api/ideas/${this.id}/`, {
-    //       headers: { Authorization: "JWT " + localStorage.getItem("token") },
-    //     })
-    //     .then(() =>
-    //       this.$router.push({
-    //         name: "home",
-    //       })
-    //     )
-    //     .catch((error) => {
-    //       console.log(error);
-    //       this.$swal({
-    //         type: "warning",
-    //         title: "ログイン",
-    //         text: "再ログインしてください",
-    //         showConfirmButton: false,
-    //         showCloseButton: false,
-    //         timer: 1000,
-    //       });
-    //       this.$router.push("/login");
-    //     });
-    // },
   },
   created() {
     this.getIdeaData();
@@ -129,8 +88,10 @@ export default {
 </script>
 
 <style>
-newComment {
-  position: absolute;
-  bottom: 30px;
+.comment {
+  padding-left: 14px;
+}
+.date {
+  font-size: 12px;
 }
 </style>

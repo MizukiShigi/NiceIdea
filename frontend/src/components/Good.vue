@@ -32,32 +32,23 @@ export default {
       goodPath: "mdi-thumb-up-outline",
     };
   },
+  mounted() {
+    this.checkLoggedIn();
+  },
   methods: {
     like() {
-      axios
-        .get(`api/idea/${this.idea.id}/like/`, {
-          headers: {
-            Authorization: "JWT " + localStorage.getItem("token"),
-          },
-        })
-        .then((response) => {
-          console.log(response);
-          this.idea.is_good = true;
-          this.idea.goods_count++;
-        });
+      axios.get(`/api/idea/${this.idea.id}/like/`).then((response) => {
+        console.log(response);
+        this.idea.is_good = true;
+        this.idea.goods_count++;
+      });
     },
     unlike() {
-      axios
-        .get(`api/idea/${this.idea.id}/unlike/`, {
-          headers: {
-            Authorization: "JWT " + localStorage.getItem("token"),
-          },
-        })
-        .then((response) => {
-          console.log(response);
-          this.idea.is_good = false;
-          this.idea.goods_count--;
-        });
+      axios.get(`/api/idea/${this.idea.id}/unlike/`).then((response) => {
+        console.log(response);
+        this.idea.is_good = false;
+        this.idea.goods_count--;
+      });
     },
   },
 };

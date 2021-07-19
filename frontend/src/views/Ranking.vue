@@ -27,19 +27,43 @@ export default {
   },
   data() {
     return {
-      title: "Idea Board",
-      requestUrl: "/api/ideas/",
-      icon: "mdi-head-lightbulb-outline",
+      title: "Idea Ranking",
+      requestUrl: "/api/ranking/",
+      icon: "mdi-medal-outline",
     };
   },
   created() {
-    document.title = "NiceIdea";
+    document.title = "NiceIdea Ranking";
   },
 };
 </script>
 
 <style scoped lang="scss">
-::v-deep .ideaicon {
+h2 {
   color: #4caf50;
+}
+h3 {
+  font-weight: bold;
+}
+.idea-link {
+  text-decoration: none;
+  color: black;
+}
+.idea-link:hover {
+  color: #4caf50;
+}
+.post {
+  padding-top: 8px;
+}
+.comment {
+  padding-left: 14px;
+  font-size: 14px;
+}
+.commenticn {
+  font-size: 18px;
+  padding-right: 4px;
+}
+::v-deep .ideaicon {
+  color: #fbc02d;
 }
 </style>

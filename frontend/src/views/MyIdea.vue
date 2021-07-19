@@ -18,7 +18,7 @@ import NewIdea from "@/components/newIdea";
 import ListIdea from "@/components/IdeaList";
 
 export default {
-  name: "ranking",
+  name: "myidea",
   components: {
     Header,
     Footer,
@@ -27,9 +27,9 @@ export default {
   },
   data() {
     return {
-      title: "Idea Board",
-      requestUrl: "/api/ideas/",
-      icon: "mdi-head-lightbulb-outline",
+      title: "My Idea",
+      requestUrl: "/api/myideas/",
+      icon: "mdi-alpha-m-circle-outline",
     };
   },
   created() {

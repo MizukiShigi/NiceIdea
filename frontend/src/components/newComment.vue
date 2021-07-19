@@ -1,7 +1,9 @@
 <template>
   <v-dialog transition="dialog-top-transition" max-width="600">
     <template v-slot:activator="{ on, attrs }">
-      <v-btn color="success" v-bind="attrs" v-on="on">コメントする</v-btn>
+      <v-btn color="success" v-bind="attrs" v-on="on" rounded
+        >コメントする</v-btn
+      >
     </template>
     <template v-slot:default="dialog">
       <v-card>
@@ -46,42 +48,30 @@ export default {
       sendPath: "mdi-send",
     };
   },
+  mounted() {
+    this.checkLoggedIn();
+  },
   methods: {
     onSubmit() {
       const datas = {
         comment: this.comment,
       };
-      axios
-        .post(`/api/comments/${this.id}/`, datas, {
-          headers: {
-            Authorization: "JWT " + localStorage.getItem("token"),
-          },
-        })
-        .then((response) => {
-          console.log(response.data);
-          this.$router.go({
-            path: this.$router.currentRoute.path,
-            force: true,
-          });
-        })
-        .catch((error) => {
-          console.log(error);
-          this.$swal({
-            type: "warning",
-            title: "ログイン",
-            text: "再ログインしてください",
-            showConfirmButton: false,
-            showCloseButton: false,
-            timer: 1000,
-          });
-          this.$router.push("/login");
+      axios.post(`/api/comments/${this.id}/`, datas).then((response) => {
+        console.log(response.data);
+        this.$router.go({
+          path: this.$router.currentRoute.path,
+          force: true,
         });
+      });
     },
   },
 };
 </script>
 
 <style scoped>
+v-btn {
+  font-size: 14px;
+}
 .ideabutton {
   position: fixed;
   right: 20px;

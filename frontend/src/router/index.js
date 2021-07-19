@@ -3,8 +3,10 @@ import VueRouter from "vue-router";
 import Login from "../views/Login.vue";
 import Register from "../views/Register.vue";
 import Home from "../views/Home.vue";
-import Idea from "../views/Idea.vue"; // 追加
+import Idea from "../views/Idea.vue";
 import IdeaEditer from '../views/IdeaEditer.vue';
+import Myidea from "../views/MyIdea.vue";
+import Ranking from "../views/Ranking.vue";
 
 Vue.use(VueRouter);
 
@@ -25,13 +27,23 @@ const routes = [
     component: Register
   },
   {
-    path: "/idea/:id", // 追加
+    path: "/myidea",
+    name: "myidea",
+    component: Myidea
+  },
+  {
+    path: "/ranking",
+    name: "ranking",
+    component: Ranking
+  },
+  {
+    path: "/idea/:id",
     name: "idea",
     component: Idea,
     props: true
   },
   {
-    path: "/editer", // 追加
+    path: "/editer",
     name: "editer",
     component: IdeaEditer,
     props: true

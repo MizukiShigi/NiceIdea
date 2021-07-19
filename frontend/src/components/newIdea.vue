@@ -30,6 +30,7 @@
             </v-toolbar-items>
           </v-toolbar>
           <v-text-field
+            v-model="title"
             label="タイトル"
             placeholder="タイトル"
             counter
@@ -68,37 +69,22 @@ export default {
       content: "",
     };
   },
+  mounted() {
+    this.checkLoggedIn();
+  },
   methods: {
     onSubmit() {
       const datas = {
         content: this.content,
         title: this.title,
       };
-      axios
-        .post("/api/ideas/", datas, {
-          headers: {
-            Authorization: "JWT " + localStorage.getItem("token"),
-          },
-        })
-        .then((response) => {
-          console.log(response.data);
-          this.$router.go({
-            path: this.$router.currentRoute.path,
-            force: true,
-          });
-        })
-        .catch((error) => {
-          console.log(error);
-          this.$swal({
-            type: "warning",
-            title: "ログイン",
-            text: "再ログインしてください",
-            showConfirmButton: false,
-            showCloseButton: false,
-            timer: 1000,
-          });
-          this.$router.push("/login");
+      axios.post("/api/ideas/", datas).then((response) => {
+        console.log(response.data);
+        this.$router.go({
+          path: this.$router.currentRoute.path,
+          force: true,
         });
+      });
     },
   },
 };

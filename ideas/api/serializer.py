@@ -18,32 +18,27 @@ class GoodSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 class IdeaListSerializer(serializers.ModelSerializer):
-    goods_count = serializers.SerializerMethodField()
+    comments_count =  serializers.StringRelatedField()
+    goods_count = serializers.StringRelatedField()
     is_good = serializers.SerializerMethodField()
     
     class Meta:
         model = Idea
-        fields = ("id", "user_id", "title", "content", "goods_count", "is_good")
+        fields = ("id", "user_id", "title", "content", "comments_count", "goods_count", "is_good")
+        read_only_fields = ("comments_count", "goods_count", "is_good")
     
-    def get_goods_count(self, obj):
-        return obj.goods.count()
-
     def get_is_good(self, obj):
-        user = self.context['request'].user
-
-        if user.is_authenticated:
-            return Good.objects.filter(user_id=user, idea_id=obj).exists()
-        else:
-            return False
+        return Good.objects.filter(user_id=self.context['request'].user, idea_id=obj).exists()
 
 class IdeaSerializer(serializers.ModelSerializer):
     comments = CommentSerializer(read_only=True, many=True)
+    goods_count = serializers.IntegerField()
+    is_good = serializers.SerializerMethodField()
+    is_myidea = serializers.BooleanField()
     class Meta:
         model = Idea
-        fields = ("user_id", "title", "content", "comments")
-        # fields = "__all__"
+        fields = ("id", "user_id", "title", "created_at", "content", "comments", "goods_count", "is_good", "is_myidea")
+        read_only_fields = ("comments_count", "goods_count", "is_good", "is_myidea")
 
-class GoodSerializer(serializers.ModelSerializer):
-    class Meta:
-        Model = Good
-        fields = "__all__"
+    def get_is_good(self, obj):
+        return Good.objects.filter(user_id=self.context['request'].user, idea_id=obj).exists()
