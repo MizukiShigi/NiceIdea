@@ -28,9 +28,9 @@ env.read_env(os.path.join(BASE_DIR,'.env'))
 SECRET_KEY = os.environ.get('SERCRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -134,6 +134,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = "/static/"
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
@@ -168,6 +169,9 @@ JWT_AUTH = {
     "JWT_REFRESH_EXPIRATION_DELTA": datetime.timedelta(days=7),
 }
 
-CORS_ORIGIN_WHITELIST = ("http://127.0.0.1:8000",)
+CORS_ORIGIN_ALLOW_ALL = False
+CORS_ORIGIN_WHITELIST = (
+'https://share.niceidea.link',
+)
 
 AUTH_USER_MODEL = "users.Account"
