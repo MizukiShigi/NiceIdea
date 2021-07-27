@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework.authtoken",
     "django_filters",
-    "webpack_loader",
+    # "webpack_loader",
     "users",
     "ideas",
 ]
@@ -133,8 +133,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
-STATIC_URL = "/static/"
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_URL = '/static/'
+STATIC_ROOT = '/collect_static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
@@ -153,12 +153,12 @@ REST_FRAMEWORK = {
     "TEST_REQUEST_DEFAULT_FORMAT": "json",
 }
 
-WEBPACK_LOADER = {
-    "DEFAULT": {
-        "BUNDLE_DIR_NAME": "dist/",
-        "STATS_FILE": os.path.join(BASE_DIR, "frontend", "webpack-stats.json"),
-    }
-}
+# WEBPACK_LOADER = {
+#     "DEFAULT": {
+#         "BUNDLE_DIR_NAME": "dist/",
+#         "STATS_FILE": os.path.join(BASE_DIR, "frontend", "webpack-stats.json"),
+#     }
+# }
 
 JWT_AUTH = {
     "JWT_VERIFY": True,
@@ -171,7 +171,7 @@ JWT_AUTH = {
 
 CORS_ORIGIN_ALLOW_ALL = False
 CORS_ORIGIN_WHITELIST = (
-'https://share.niceidea.link',
+    'https://www.niceidea.link/',
 )
 
 AUTH_USER_MODEL = "users.Account"
